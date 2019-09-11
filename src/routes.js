@@ -5,17 +5,17 @@ import MyGrids from "./views/MyGrids.jsx";
 
 var dashRoutes = [
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "design_image",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
     path: "/mygrids",
     name: "Mygrids",
     icon: "design_image",
     component: MyGrids,
+    layout: "/admin"
+  },
+  {
+    path: "/icons",
+    name: "Icons",
+    icon: "design_image",
+    component: Icons,
     layout: "/admin"
   },
   {

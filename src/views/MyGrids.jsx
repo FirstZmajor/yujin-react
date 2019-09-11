@@ -5,6 +5,8 @@ import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 // core components
 import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
 import '../App.css';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
 class MyGrids extends React.Component {
     constructor() {
@@ -26,17 +28,21 @@ class MyGrids extends React.Component {
             <Col md={12}>
             <Card>
                 <CardHeader>
-                  {/* <h5 className="title">Now Ui Table Heading</h5>
+                  <h5 className="title">Develop React-Grid-Layout</h5>
                   <p className="category">
-                    Created using Montserrat Font Family
-                  </p> */}
+                  For Learning &Practice Labs
+                  </p>
                 </CardHeader>
                 <CardBody>
-                  <GridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
-                    <div className="my-arias" key="a">a</div>
-                    <div className="my-arias" key="b">b</div>
-                    <div className="my-arias" key="c">c</div>
-                  </GridLayout>
+                  <Row>
+                  <Col md={12}>
+                    <GridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
+                        <div className="my-arias" key="a">a</div>
+                        <div className="my-arias" key="b">b</div>
+                        <div className="my-arias" key="c">c</div>
+                    </GridLayout>
+                  </Col>
+                  </Row>
                 </CardBody>
               </Card>
             </Col>
