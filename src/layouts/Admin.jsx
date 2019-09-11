@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
                 />
               );
             })}
-            <Redirect from="/admin" to="/admin/dashboard" />
+            <Redirect from="/home" to="/home/mygrids" />
           </Switch>
           <Footer fluid />
         </div>

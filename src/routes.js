@@ -9,21 +9,21 @@ var dashRoutes = [
     name: "Mygrids",
     icon: "design_image",
     component: MyGrids,
-    layout: "/admin"
+    layout: "/home"
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "design_image",
     component: Icons,
-    layout: "/admin"
+    layout: "/home"
   },
   {
     path: "/typography",
     name: "Typography",
     icon: "design-2_ruler-pencil",
     component: Typography,
-    layout: "/admin"
+    layout: "/home"
   }
 ];
 export default dashRoutes;

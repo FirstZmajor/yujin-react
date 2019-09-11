@@ -31,8 +31,8 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect to="/admin/dashboard" />
+      <Route path="/home" render={props => <AdminLayout {...props} />} />
+      <Redirect to="/home/mygrids" />
     </Switch>
   </Router>,
   document.getElementById("root")
