@@ -22,7 +22,7 @@ class FixedPlugin extends Component {
         <div className={this.state.classes}>
           <div onClick={this.handleClick}>
             {/* <i className="fa fa-cog fa-2x">COLORS</i> */}
-            <i class="my-gear now-ui-icons ui-1_settings-gear-63"></i>
+            <i className="my-gear now-ui-icons ui-1_settings-gear-63"></i>
           </div>
           <ul className="dropdown-menu show">
             <li className="header-title">SIDEBAR BACKGROUND</li>

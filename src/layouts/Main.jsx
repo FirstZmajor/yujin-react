@@ -1,11 +1,6 @@
 import React from "react";
-// javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-
-// reactstrap components
 import { Route, Switch, Redirect } from "react-router-dom";
-
-// core components
 import DemoNavbar from "../components/Navbars/DemoNavbar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
