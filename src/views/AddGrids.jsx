@@ -6,6 +6,11 @@ import _ from "lodash";
 import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
 import '../App.css';
 
+import firebase from "firebase/app"
+import "firebase/firestore"
+
+
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class AddGrids extends React.PureComponent {
@@ -17,22 +22,24 @@ class AddGrids extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      items: [0, 1, 2, 3, 4].map(function(i, key, list) {
-        return {
-          i: i.toString(),
-          x: i * 2,
-          y: 0,
-          h: 2,
-          w: 2,
-          minH:2, 
-          minW: 2, 
-          add: i === (list.length - 1).toString()
-        };
-      }),
-      newCounter: 0
-    };
+      items: []
+    }
+    // this.state = {
+    //   items: [0, 1, 2, 3, 4].map(function(i, key, list) {
+    //     return {
+    //       i: i.toString(),
+    //       x: i * 2,
+    //       y: 0,
+    //       h: 2,
+    //       w: 2,
+    //       minH:2, 
+    //       minW: 2, 
+    //       add: i === (list.length - 1).toString()
+    //     };
+    //   }),
+    //   newCounter: 0
+    // };
 
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -72,19 +79,29 @@ class AddGrids extends React.PureComponent {
 
   onAddItem() {
     /*eslint no-console: 0*/
-    console.log("adding", "n" + this.state.newCounter);
+    let newID = "new" + this.state.newCounter;
+    let newItem = {
+      i: newID,
+      x: (this.state.items.length * 2) % (this.state.cols || 12),
+      y: Infinity, // puts it at the bottom
+      w: 2,
+      h: 2,
+      age: newID,
+      color: "#567ace",
+      id: "01",
+      name: "YujMin " + newID,
+      rank: 115
+    }
     this.setState({
       // Add a new item. It must have a unique key!
-      items: this.state.items.concat({
-        i: "n" + this.state.newCounter,
-        x: (this.state.items.length * 2) % (this.state.cols || 12),
-        y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
-      }),
+      items: this.state.items.concat(newItem),
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1
     });
+    console.log("adding", newItem);
+    let firestore = firebase.firestore();
+    firestore.collection("store").add(newItem);
+
   }
 
   // We're using the cols coming back from this to calculate where to add new items.
@@ -104,6 +121,36 @@ class AddGrids extends React.PureComponent {
   onRemoveItem(i) {
     console.log("removing", i);
     this.setState({ items: _.reject(this.state.items, { i: i }) });
+  }
+
+  componentDidMount() {
+    let firestore = firebase.firestore();    
+    // firestore.collection("store").doc("WTSLydisgAemVGq8wphP").get().then(function(docs){
+    //   console.log(docs.data());
+    // })
+    firestore.collection("store").get().then((snapshot) => {
+      // console.log(snapshot);
+      // this.setState({
+      //   // Add a new item. It must have a unique key!
+      //   items: this.state.items.concat(newItem)
+      // });
+      // snapshot.forEach(function(docs){
+      //     console.log(docs.data());
+      //     this.setState
+      // })
+      const map = snapshot.docs.map(v => {
+        return {
+          cid: v.id,
+          ...v.data()
+        }
+      })
+
+      console.log(map)
+
+      this.setState({
+        items: map
+      })
+  });
   }
 
   render() {
