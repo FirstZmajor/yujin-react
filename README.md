@@ -9,7 +9,7 @@ run command to install package
 yarn
 ```
 
-command for tasting
+command for testing
 
 ```bash
 yarn start
