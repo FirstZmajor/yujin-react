@@ -23,24 +23,9 @@ class AddGrids extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      // newCounter: 0
     }
-    // this.state = {
-    //   items: [0, 1, 2, 3, 4].map(function(i, key, list) {
-    //     return {
-    //       i: i.toString(),
-    //       x: i * 2,
-    //       y: 0,
-    //       h: 2,
-    //       w: 2,
-    //       minH:2, 
-    //       minW: 2, 
-    //       add: i === (list.length - 1).toString()
-    //     };
-    //   }),
-    //   newCounter: 0
-    // };
-
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
@@ -52,21 +37,21 @@ class AddGrids extends React.PureComponent {
       top: 5,
       cursor: "pointer"
     };
-    const i = el.add ? "+" : el.i;
+    const i = el.cid;
     return (
       <div key={i} data-grid={el} style={{width: '100%', height: '100%'}} >
       <SizeMe monitorWidth monitorHeight>
       {({ size }) => 
         <Card style={{width: '100%', height: '100%', position: 'absolute',top: 0,bottom: 0}}>
           <CardBody>
-              <CardTitle>Card Number: {i} </CardTitle>
+              <CardTitle>Card Number: {el.cid} </CardTitle>
               <CardSubtitle className="mb-2 text-muted">Card subtitle</CardSubtitle>
               <CardText>
-              <span className="text">width of {i} is {size.width} px</span><br/>
-              <span className="text">height of {i} is {size.height} px</span>
+              <span className="text">width of is {size.width} px</span><br/>
+              <span className="text">height of is {size.height} px</span>
               <i className="remove now-ui-icons ui-1_simple-remove"
               style={removeStyle}
-              onClick={this.onRemoveItem.bind(this, i)}></i>
+              onClick={this.onRemoveItem.bind(this, el.cid)}></i>
               </CardText>
           </CardBody>
         </Card>
@@ -79,29 +64,33 @@ class AddGrids extends React.PureComponent {
 
   onAddItem() {
     /*eslint no-console: 0*/
-    let newID = "new" + this.state.newCounter;
+    let firestore = firebase.firestore();
+    // firestore.collection("store").add(newItem);
+    const ref = firestore.collection('store').doc()
     let newItem = {
-      i: newID,
       x: (this.state.items.length * 2) % (this.state.cols || 12),
       y: Infinity, // puts it at the bottom
       w: 2,
+      minW: 2,
       h: 2,
-      age: newID,
+      minH:2, 
+      age: 16,
       color: "#567ace",
-      id: "01",
-      name: "YujMin " + newID,
-      rank: 115
+      name: "YujMin ",
+      rank: 115,
+      dateCreate: new Date().getTime()
     }
+    console.log(ref.id)  // prints the unique id
+    ref.set(newItem)  // sets the contents of the doc using the id
+    .then(() => {  // fetch the doc again and show its data
+        ref.get().then(doc => {
+            console.log(doc.data())
+        })
+    })
     this.setState({
       // Add a new item. It must have a unique key!
-      items: this.state.items.concat(newItem),
-      // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
+      items: this.state.items.concat(newItem)
     });
-    console.log("adding", newItem);
-    let firestore = firebase.firestore();
-    firestore.collection("store").add(newItem);
-
   }
 
   // We're using the cols coming back from this to calculate where to add new items.
@@ -118,35 +107,27 @@ class AddGrids extends React.PureComponent {
     this.setState({ layout: layout });
   }
 
-  onRemoveItem(i) {
-    console.log("removing", i);
-    this.setState({ items: _.reject(this.state.items, { i: i }) });
+  onRemoveItem(cid) {
+    let firestore = firebase.firestore();    
+    firestore.collection("store").doc(cid).delete().then(function() {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+    const updateItems = this.state.items.filter(item => item.cid !== cid);
+    this.setState({ items: updateItems })
+
   }
 
   componentDidMount() {
-    let firestore = firebase.firestore();    
-    // firestore.collection("store").doc("WTSLydisgAemVGq8wphP").get().then(function(docs){
-    //   console.log(docs.data());
-    // })
+    let firestore = firebase.firestore();
     firestore.collection("store").get().then((snapshot) => {
-      // console.log(snapshot);
-      // this.setState({
-      //   // Add a new item. It must have a unique key!
-      //   items: this.state.items.concat(newItem)
-      // });
-      // snapshot.forEach(function(docs){
-      //     console.log(docs.data());
-      //     this.setState
-      // })
       const map = snapshot.docs.map(v => {
         return {
           cid: v.id,
           ...v.data()
         }
       })
-
-      console.log(map)
-
       this.setState({
         items: map
       })
