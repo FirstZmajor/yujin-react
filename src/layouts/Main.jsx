@@ -1,10 +1,13 @@
 import React from "react";
 import PerfectScrollbar from "perfect-scrollbar";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import DemoNavbar from "../components/Navbars/DemoNavbar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin.jsx";
+import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
+import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
+
 
 import routes from "../routes.js";
 
@@ -44,26 +47,48 @@ class Dashboard extends React.Component {
           routes={routes}
           backgroundColor={this.state.backgroundColor}
         />
+        
         <div className="main-panel" ref={this.mainPanel}>
           <DemoNavbar {...this.props} />
-          <Switch>
-            {routes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.layout + prop.path}
-                  component={prop.component}
-                  key={key}
-                />
-              );
-            })}
-            <Redirect from="/home" to="/home/mygrids" />
-          </Switch>
+          <PanelHeader size="sm" />
+          <div className="content">
+            <Row>
+              <Col md={12} xs={12}>
+              <Card style={{height: '1000px'}}>
+                  <CardHeader>
+                    <h5 className="title">Develop React-Grid-Layout</h5>
+                    <p className="category">
+                    For Learning &Practice Labs
+                    </p>
+                  </CardHeader>
+                  <CardBody>
+                    <Row>
+                    <Col md={12} xs={12}>
+                      <Switch>
+                        {routes.map((prop, key) => {
+                          return (
+                            <Route
+                              path={prop.layout + prop.path}
+                              component={prop.component}
+                              key={key}
+                            />
+                          );
+                        })}
+                      </Switch>
+                    </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
           <Footer fluid />
         </div>
         <FixedPlugin
           bgColor={this.state.backgroundColor}
           handleColorClick={this.handleColorClick}
         />
+
       </div>
     );
   }

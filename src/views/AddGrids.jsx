@@ -1,9 +1,8 @@
 import React from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
-import { Card, CardHeader, CardBody, Row, Col, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
+import { Card, CardBody, Row, Col, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 import { SizeMe } from 'react-sizeme';
 import _ from "lodash";
-import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
 import '../App.css';
 
 import firebase from "firebase/app"
@@ -138,40 +137,23 @@ class AddGrids extends React.PureComponent {
   render() {
     return (
         <>
-        <PanelHeader size="sm" />
-        <div className="content">
-          <Row>
-            <Col md={12} xs={12}>
-            <Card style={{height: '1000px'}}>
-                <CardHeader>
-                  <h5 className="title">Develop React-Grid-Layout</h5>
-                  <p className="category">
-                  For Learning &Practice Labs
-                  </p>
-                </CardHeader>
-                <CardBody>
-                  <Row>
-                  <Col md={12} xs={12}>
-                    <div>
-                      <Button color="primary" className="btn-round" onClick={this.onAddItem}>
-                          <i className="now-ui-icons ui-1_simple-add"></i> Add Item
-                      </Button>
-                      <ResponsiveReactGridLayout
-                        // onLayoutChange={this.onLayoutChange}
-                        onBreakpointChange={this.onBreakpointChange}
-                        {...this.props}
-                        style={{height: '100%'}}
-                      >
-                        {_.map(this.state.items, el => this.createElement(el))}
-                      </ResponsiveReactGridLayout>
-                    </div>
-                  </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
+        <Row>
+          <Col md={12} xs={12}>
+            <div>
+              <Button color="primary" className="btn-round" onClick={this.onAddItem}>
+                  <i className="now-ui-icons ui-1_simple-add"></i> Add Item
+              </Button>
+              <ResponsiveReactGridLayout
+                // onLayoutChange={this.onLayoutChange}
+                onBreakpointChange={this.onBreakpointChange}
+                {...this.props}
+                style={{height: '100%'}}
+              >
+                {_.map(this.state.items, el => this.createElement(el))}
+              </ResponsiveReactGridLayout>
+            </div>
+          </Col>
           </Row>
-        </div>
         </>
 
 
