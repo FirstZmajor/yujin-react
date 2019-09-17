@@ -47,8 +47,10 @@ class AddGrids extends React.PureComponent {
               <CardTitle>Card Number: {el.cid} </CardTitle>
               <CardSubtitle className="mb-2 text-muted">Card subtitle</CardSubtitle>
               <CardText>
-              <span className="text">width of is {size.width} px</span><br/>
-              <span className="text">height of is {size.height} px</span>
+              <span className="text">width = {size.width} px</span><br/>
+              <span className="text">height = {size.height} px</span><br/>
+              <span className="text">X = {el.x} px</span>
+
               <i className="remove now-ui-icons ui-1_simple-remove"
               style={removeStyle}
               onClick={this.onRemoveItem.bind(this, el.cid)}></i>
