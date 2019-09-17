@@ -65,7 +65,6 @@ class AddGrids extends React.PureComponent {
   onAddItem() {
     /*eslint no-console: 0*/
     let firestore = firebase.firestore();
-    // firestore.collection("store").add(newItem);
     const ref = firestore.collection('store').doc()
     let newItem = {
       x: (this.state.items.length * 2) % (this.state.cols || 12),
@@ -80,13 +79,13 @@ class AddGrids extends React.PureComponent {
       rank: 115,
       dateCreate: new Date().getTime()
     }
-    console.log(ref.id)  // prints the unique id
     ref.set(newItem)  // sets the contents of the doc using the id
     .then(() => {  // fetch the doc again and show its data
         ref.get().then(doc => {
             console.log(doc.data())
         })
     })
+    newItem.cid = ref.id
     this.setState({
       // Add a new item. It must have a unique key!
       items: this.state.items.concat(newItem)
