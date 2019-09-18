@@ -1,12 +1,12 @@
 import React from "react";
 import PerfectScrollbar from "perfect-scrollbar";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import DemoNavbar from "../components/Navbars/DemoNavbar.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin.jsx";
 import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
-import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
+import { Card, Row, Col } from 'reactstrap';
 
 
 import routes from "../routes.js";
@@ -54,30 +54,18 @@ class Dashboard extends React.Component {
           <div className="content">
             <Row>
               <Col md={12} xs={12}>
-              <Card style={{height: '1000px'}}>
-                  <CardHeader>
-                    <h5 className="title">Develop React-Grid-Layout</h5>
-                    <p className="category">
-                    For Learning &Practice Labs
-                    </p>
-                  </CardHeader>
-                  <CardBody>
-                    <Row>
-                    <Col md={12} xs={12}>
-                      <Switch>
-                        {routes.map((prop, key) => {
-                          return (
-                            <Route
-                              path={prop.layout + prop.path}
-                              component={prop.component}
-                              key={key}
-                            />
-                          );
-                        })}
-                      </Switch>
-                    </Col>
-                    </Row>
-                  </CardBody>
+              <Card>
+                <Switch>
+                  {routes.map((prop, key) => {
+                    return (
+                      <Route
+                        path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={key}
+                      />
+                    );
+                  })}
+                </Switch>
                 </Card>
               </Col>
             </Row>

@@ -1,6 +1,6 @@
 import React from "react";
 import RGL, { WidthProvider} from "react-grid-layout";
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, CardText, Button, Row, Col } from 'reactstrap';
 import _ from "lodash";
 import '../App.css';
 import firebase from "firebase/app"
@@ -23,40 +23,58 @@ class LocalStorageLayout extends React.PureComponent {
     super(props);
 
     this.state = {
-      layout: JSON.parse(JSON.stringify(originalLayout))
-      // layout: []
+      // layout: JSON.parse(JSON.stringify(originalLayout))
+      layout: []
     };
 
     this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.resetLayout = this.resetLayout.bind(this);
+    this.saveLayout = this.saveLayout.bind(this);
   }
 
-  resetLayout() {
-    this.setState({
-      layout: []
-    });
+  saveLayout() {
+    let firestore = firebase.firestore();
+    let layout = this.state.layout
+
+    // var frankDocRef = firestore.collection("layout").doc("kPgmmpBnbLuuDcxwurMt");
+    // frankDocRef.set({
+    //     h: 5,
+    //     i: "kPgmmpBnbLuuDcxwurMt",
+    //     minH: 1,
+    //     minW: 4,
+    //     w: 5,
+    //     x: 3,
+    //     y: 3
+    // });
+
+    
+    _.forEach(layout, function (doc, i) {
+      console.log('forEach', doc.i)
+      let washingtonRef = firestore.collection("layout").doc(doc.i);
+      return washingtonRef.update({
+        h: +doc.h,
+        i: doc.i,
+        minH: +doc.minH,
+        minW: +doc.minW,
+        w: +doc.w,
+        x: +doc.x,
+        y: +doc.y
+      })
+      .then(function() {
+        console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
+    })
+      
   }
 
   onLayoutChange(layout) {
     /*eslint no-console: 0*/
-
-    // const firestore = firebase.firestore();
-    // const washingtonRef = firestore.collection("layout").doc("DC");
-    // // Set the "capital" field of the city 'DC'
-    // return washingtonRef.update({
-    //     capital: true
-    // })
-    // .then(function() {
-    //     console.log("Document successfully updated!");
-    // })
-    // .catch(function(error) {
-    //     // The document probably doesn't exist.
-    //     console.error("Error updating document: ", error);
-    // });
-    console.log('layout  ', layout)
-    // saveToLS("layout", layout);
-    // this.setState({ layout });
-    // this.props.onLayoutChange(layout); // updates status display
+    saveToLS("layout", layout);
+    this.setState({ layout });
+    this.props.onLayoutChange(layout); // updates status display
     console.log('move  ', this.state.layout)
 
   }
@@ -66,50 +84,59 @@ class LocalStorageLayout extends React.PureComponent {
     firestore.collection("layout").get().then((snapshot) => {
       const listCollect = snapshot.docs.map(v => {
         return {
-          cid: v.id,
+          // cid: v.id,
           ...v.data()
         }
       })
-      // console.log('Layout ', this.state.layout)
       this.setState({
         layout: listCollect
       })
-      console.log('mount ', listCollect)
+      console.log('componentDidMount ',  this.state.layout)
 
-  });
+    });
   }
 
   createElement(el) {
-    // const i = el.cid;
-
-    console.log('Create ', el)
     return (
-      <div key={el.i} data-grid={el} style={{width: '100%', height: '100%'}}>
-        <div className="content">
-
-          <Card style={{width: '100%', height: '100%', position: 'absolute',top: 0,bottom: 0}}>
+      <div key={el.i} data-grid={el} style={{width: 'auto', height: 'auto'}}>
+        <Card style={{width: '100%', height: '100%', top: 0,bottom: 0}}>
             <CardBody>
-                <CardTitle>Card title {el.cid} </CardTitle>
+                <CardTitle>Card title {el.i} </CardTitle>
                 <CardSubtitle className="mb-2 text-muted">Card subtitle</CardSubtitle>
                 <CardText><span >1</span></CardText>
             </CardBody>
           </Card>
-        </div>
       </div>
     );
   }
 
   render() {
     return (
-      <div>
-        <button onClick={this.resetLayout}>Reset Layout</button>
-        <ReactGridLayout
-          {...this.props}
-          layout={this.state.layout}
-          onLayoutChange={this.onLayoutChange} >
-          {_.map(this.state.layout, el => this.createElement(el))}
-        </ReactGridLayout>
-      </div>
+      <>
+        <CardHeader>
+          <h5 className="title">Develop React-Grid-Layout</h5>
+          <p className="category">
+          For Learning &Practice Labs
+          </p>
+        </CardHeader>
+        <CardBody>
+          <Row>
+            <Col md={12} xs={12}>
+              <Button color="primary" className="btn-round" onClick={this.saveLayout}>
+                  <i className="media-1_camera-compact"></i> Save Layout
+              </Button>
+              <ReactGridLayout
+                {...this.props}
+                layout={this.state.layout}
+                onLayoutChange={this.onLayoutChange} >
+                {_.map(this.state.layout, el => this.createElement(el))}
+              </ReactGridLayout>
+            </Col>
+          </Row>
+        </CardBody>
+
+        
+      </>
 
     );
   }

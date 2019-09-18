@@ -1,6 +1,6 @@
 import React from 'react';
 import GridLayout from 'react-grid-layout';
-import { Card, CardBody, Row, Col, CardTitle, CardSubtitle, CardText } from 'reactstrap';
+import { Card, CardHeader, CardBody, Row, Col, CardTitle, CardSubtitle, CardText } from 'reactstrap';
 import { SizeMe } from 'react-sizeme';
 
 import '../App.css';
@@ -21,6 +21,13 @@ class MyGrids extends React.Component {
       ];
       return (
         <>
+          <CardHeader>
+            <h5 className="title">100 Awesome Nucleo Icons</h5>
+            <p className="category">
+              Handcrafted by our friends from{" "}
+            </p>
+          </CardHeader>
+          <CardBody className="all-icons">
           <Row>
               <Col md={12} xs={12}>
                 <GridLayout className="layout" layout={layout} cols={12} rowHeight={100} width={1200}>
@@ -70,7 +77,9 @@ class MyGrids extends React.Component {
                   </div>
                 </GridLayout>
               </Col>
-              </Row>
+            </Row>
+          </CardBody>
+            
         </>
       );
     }
