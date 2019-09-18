@@ -23,10 +23,12 @@ class AddGrids extends React.PureComponent {
     super(props);
     this.state = {
       items: [],
+      layout: []
       // newCounter: 0
     }
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
   }
 
   createElement(el) {
@@ -48,8 +50,8 @@ class AddGrids extends React.PureComponent {
               <CardText>
               <span className="text">width = {size.width} px</span><br/>
               <span className="text">height = {size.height} px</span><br/>
-              <span className="text">X = {el.x} px</span>
-
+              <span className="text">X = {el.x} px</span><br/>
+              <span className="text">Y = {el.y} px</span>
               <i className="remove now-ui-icons ui-1_simple-remove"
               style={removeStyle}
               onClick={this.onRemoveItem.bind(this, el.cid)}></i>
@@ -101,10 +103,27 @@ class AddGrids extends React.PureComponent {
     });
   }
 
-  onLayoutChange(layout) {
-    // console.log(layout);
-    this.props.onLayoutChange(layout);
-    this.setState({ layout: layout });
+  onLayoutChange(items) {
+    let firestore = firebase.firestore();
+    _.forEach(items, function (doc, i) {
+      let washingtonRef = firestore.collection("store").doc(doc.i);
+      return washingtonRef.update({
+        h: +doc.h,
+        i: doc.i,
+        minH: +doc.minH,
+        minW: +doc.minW,
+        w: +doc.w,
+        x: +doc.x,
+        y: +doc.y
+      })
+      .then(function() {
+        console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
+    })
   }
 
   onRemoveItem(cid) {
@@ -151,9 +170,10 @@ class AddGrids extends React.PureComponent {
                     <i className="now-ui-icons ui-1_simple-add"></i> Add Item
                 </Button>
                 <ResponsiveReactGridLayout
-                  // onLayoutChange={this.onLayoutChange}
-                  onBreakpointChange={this.onBreakpointChange}
                   {...this.props}
+                  items={this.state.items}
+                  onLayoutChange={this.onLayoutChange}
+                  onBreakpointChange={this.onBreakpointChange}
                   style={{height: '100%'}}
                 >
                   {_.map(this.state.items, el => this.createElement(el))}

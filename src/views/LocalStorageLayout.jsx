@@ -8,9 +8,7 @@ import "firebase/firestore"
 
 const ReactGridLayout = WidthProvider(RGL);
 const originalLayout = getFromLS("layout") || [];
-/**
- * This layout demonstrates how to sync to localstorage.
- */
+
 class LocalStorageLayout extends React.PureComponent {
   static defaultProps = {
     className: "layout",
@@ -21,12 +19,10 @@ class LocalStorageLayout extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
     this.state = {
       // layout: JSON.parse(JSON.stringify(originalLayout))
       layout: []
     };
-
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.saveLayout = this.saveLayout.bind(this);
   }
@@ -34,19 +30,6 @@ class LocalStorageLayout extends React.PureComponent {
   saveLayout() {
     let firestore = firebase.firestore();
     let layout = this.state.layout
-
-    // var frankDocRef = firestore.collection("layout").doc("kPgmmpBnbLuuDcxwurMt");
-    // frankDocRef.set({
-    //     h: 5,
-    //     i: "kPgmmpBnbLuuDcxwurMt",
-    //     minH: 1,
-    //     minW: 4,
-    //     w: 5,
-    //     x: 3,
-    //     y: 3
-    // });
-
-    
     _.forEach(layout, function (doc, i) {
       console.log('forEach', doc.i)
       let washingtonRef = firestore.collection("layout").doc(doc.i);
@@ -72,7 +55,7 @@ class LocalStorageLayout extends React.PureComponent {
 
   onLayoutChange(layout) {
     /*eslint no-console: 0*/
-    saveToLS("layout", layout);
+    // saveToLS("layout", layout);
     this.setState({ layout });
     this.props.onLayoutChange(layout); // updates status display
     console.log('move  ', this.state.layout)
@@ -119,7 +102,7 @@ class LocalStorageLayout extends React.PureComponent {
           For Learning &Practice Labs
           </p>
         </CardHeader>
-        <CardBody>
+        <CardBody>         
           <Row>
             <Col md={12} xs={12}>
               <Button color="primary" className="btn-round" onClick={this.saveLayout}>
