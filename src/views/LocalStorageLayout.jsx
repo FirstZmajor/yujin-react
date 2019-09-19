@@ -7,7 +7,7 @@ import firebase from "firebase/app"
 import "firebase/firestore"
 
 const ReactGridLayout = WidthProvider(RGL);
-const originalLayout = getFromLS("layout") || [];
+// const originalLayout = getFromLS("layout") || [];
 
 class LocalStorageLayout extends React.PureComponent {
   static defaultProps = {
@@ -125,28 +125,28 @@ class LocalStorageLayout extends React.PureComponent {
   }
 }
 
-function getFromLS(key) {
-  let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-7")) || {};
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls[key];
-}
+// function getFromLS(key) {
+//   let ls = {};
+//   if (global.localStorage) {
+//     try {
+//       ls = JSON.parse(global.localStorage.getItem("rgl-7")) || {};
+//     } catch (e) {
+//       /*Ignore*/
+//     }
+//   }
+//   return ls[key];
+// }
 
-function saveToLS(key, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(
-      "rgl-7",
-      JSON.stringify({
-        [key]: value
-      })
-    );
-  }
-}
+// function saveToLS(key, value) {
+//   if (global.localStorage) {
+//     global.localStorage.setItem(
+//       "rgl-7",
+//       JSON.stringify({
+//         [key]: value
+//       })
+//     );
+//   }
+// }
 
 // module.exports = LocalStorageLayout;
 

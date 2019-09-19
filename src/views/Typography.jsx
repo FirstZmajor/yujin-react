@@ -18,10 +18,7 @@
 import React from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
-
-// core components
-import PanelHeader from "../components/PanelHeader/PanelHeader.jsx";
+import { CardHeader, CardBody } from "reactstrap";
 
 class Typography extends React.Component {
   render() {

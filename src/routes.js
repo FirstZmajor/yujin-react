@@ -1,9 +1,10 @@
 
-import Icons from "./views/Icons.jsx";
-import Typography from "./views/Typography.jsx";
-import MyGrids from "./views/MyGrids.jsx";
+import Icons from "./views/Icons";
+import Typography from "./views/Typography";
+import MyGrids from "./views/MyGrids";
 import AddGrids from "./views/AddGrids";
 import LocalStorageLayout from "./views/LocalStorageLayout";
+import MyChart from "./views/MyChart";
 
 var dashRoutes = [
   {
@@ -25,6 +26,13 @@ var dashRoutes = [
     name: "Saveto Local Storage",
     icon: "arrows-1_cloud-download-93",
     component: LocalStorageLayout,
+    layout: "/home"
+  },
+  {
+    path: "/mychart",
+    name: "My D3 Chart",
+    icon: "media-2_sound-wave",
+    component: MyChart,
     layout: "/home"
   },
   {
