@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import * as d3 from "d3"
-import { Card, CardBody } from 'reactstrap';
+import * as d3 from 'd3'
+import { Card, CardBody } from 'reactstrap'
 
 
 

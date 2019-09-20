@@ -1,17 +1,36 @@
 import React from 'react'
-import { CardHeader, CardBody, Button, Row, Col } from 'reactstrap';
+import { Card, CardHeader, CardBody, Button, Row, Col } from 'reactstrap';
 import * as d3 from 'd3';
 import _ from "lodash";
 
 import ProgressArc from '../visualization/ProgressArc';
 import BubbleChart from '../visualization/BubbleChart';
+import BarChart from '../visualization/BarChart';
 
 
 class MyChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      percentComplete: 0.3
+      percentComplete: 0.3,
+      dataBubble: [
+        { label: 'CRM', value: 1 },
+        { label: 'API', value: 1 },
+        { label: 'Data', value: 1 },
+        { label: 'Commerce', value: 1 },
+        { label: 'AI', value: 3 },
+        { label: 'Management', value: 5 },
+        { label: 'Testing', value: 6 },
+        { label: 'Mobile', value: 9 },
+        { label: 'Conversion', value: 9 },
+        { label: 'Misc', value: 21 },
+        { label: 'Databases', value: 22 },
+        { label: 'DevOps', value: 22 },
+        { label: 'Javascript', value: 23 },
+        { label: 'Languages / Frameworks', value: 25 },
+        { label: 'Front End', value: 26 },
+        { label: 'Content', value: 26 },
+      ]
     };
     this.togglePercent = this.togglePercent.bind(this);
   }
@@ -34,14 +53,25 @@ class MyChart extends React.Component {
           </CardHeader>
           <CardBody className="all-icons">
           <Row>
-            <Col md={12} xs={12}>
-              <Button color="primary" className="btn-round" onClick={this.togglePercent}>
-                Toggle Arc 
-              </Button>
+            <Col>
+              <Card>
+                <CardBody>
+                  <BarChart
+                    width={300}
+                    height={300}
+                  />
+                </CardBody>
+              </Card>
             </Col>
-          </Row>
-          <Row>
-            <Col md={12} xs={12}>
+
+            <Col>
+              <Row>
+                <Col md={12} xs={12}>
+                  <Button color="primary" className="btn-round" onClick={this.togglePercent}>
+                    Toggle Arc 
+                  </Button>
+                </Col>
+              </Row>
             <ProgressArc
               height={300}
               width={300}
@@ -52,31 +82,18 @@ class MyChart extends React.Component {
               foregroundColor="#00ff00"
               percentComplete={this.state.percentComplete}
             />
-            
-            <BubbleChart
-              width={800}
-              height={800}
-              fontFamily="Arial"
-              data={[
-                { label: 'CRM', value: 1 },
-                { label: 'API', value: 1 },
-                { label: 'Data', value: 1 },
-                { label: 'Commerce', value: 1 },
-                { label: 'AI', value: 3 },
-                { label: 'Management', value: 5 },
-                { label: 'Testing', value: 6 },
-                { label: 'Mobile', value: 9 },
-                { label: 'Conversion', value: 9 },
-                { label: 'Misc', value: 21 },
-                { label: 'Databases', value: 22 },
-                { label: 'DevOps', value: 22 },
-                { label: 'Javascript', value: 23 },
-                { label: 'Languages / Frameworks', value: 25 },
-                { label: 'Front End', value: 26 },
-                { label: 'Content', value: 26 },
-              ]}
-            />
-
+            </Col>
+            <Col>
+              <Card style={{width: 'auto', height: 'auto'}}>
+              <CardBody>
+                <BubbleChart
+                  width={800}
+                  height={800}
+                  fontFamily="Arial"
+                  data={this.state.dataBubble}
+                />
+              </CardBody>
+            </Card>
             </Col>
           </Row>
           </CardBody>

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
-
 class BubbleChart extends Component {
   constructor(props){
     super(props);
@@ -57,8 +56,8 @@ class BubbleChart extends Component {
 
     const bubblesWidth = showLegend ? width * (1 - (legendPercentage / 100)) : width;
     const legendWidth = width - bubblesWidth;
-    const color = d3.scaleOrdinal()
-    .range(['black', '#ccc', '#ccc'])
+    // const color = d3.scaleOrdinal().range(['black', '#ccc', '#ccc'])
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     const pack = d3.pack()
         .size([bubblesWidth * graph.zoom, bubblesWidth * graph.zoom])
