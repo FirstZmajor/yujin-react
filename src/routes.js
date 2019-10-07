@@ -1,10 +1,11 @@
 
-import Icons from "./views/Icons";
-import Typography from "./views/Typography";
-import MyGrids from "./views/MyGrids";
-import AddGrids from "./views/AddGrids";
-import LocalStorageLayout from "./views/LocalStorageLayout";
-import MyChart from "./views/MyChart";
+import Icons from './views/Icons';
+import Typography from './views/Typography';
+import MyGrids from './views/MyGrids';
+import AddGrids from './views/AddGrids';
+import LocalStorageLayout from './views/LocalStorageLayout';
+import MyChart from './views/MyChart';
+import MyEchart from './views/MyEchart'
 
 var dashRoutes = [
   {
@@ -23,7 +24,7 @@ var dashRoutes = [
   },
   {
     path: "/localstoragelayout",
-    name: "Saveto Local Storage",
+    name: "Save Layout",
     icon: "arrows-1_cloud-download-93",
     component: LocalStorageLayout,
     layout: "/home"
@@ -33,6 +34,13 @@ var dashRoutes = [
     name: "My D3 Chart",
     icon: "media-2_sound-wave",
     component: MyChart,
+    layout: "/home"
+  },
+  {
+    path: "/myechart",
+    name: "My E-Chart",
+    icon: "media-2_sound-wave",
+    component: MyEchart,
     layout: "/home"
   },
   {

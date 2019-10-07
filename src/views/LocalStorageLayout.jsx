@@ -1,8 +1,11 @@
-import React from "react";
-import RGL, { WidthProvider} from "react-grid-layout";
-import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, CardText, Button, Row, Col } from 'reactstrap';
-import _ from "lodash";
-import '../App.css';
+import React from "react"
+import RGL, { WidthProvider} from "react-grid-layout"
+import { Card, CardHeader, CardBody, CardTitle, CardFooter, Button, Row, Col } from 'reactstrap'
+import { EchartTest, BarZoom, MultiLine } from '../visualization/EchartTest'
+import { SizeMe } from 'react-sizeme'
+
+import _ from "lodash"
+import '../App.css'
 import firebase from "firebase/app"
 import "firebase/firestore"
 
@@ -14,7 +17,8 @@ class LocalStorageLayout extends React.PureComponent {
     className: "layout",
     cols: 12,
     rowHeight: 30,
-    onLayoutChange: function() {}
+    // onLayoutChange: function() {}
+    
   };
 
   constructor(props) {
@@ -31,7 +35,6 @@ class LocalStorageLayout extends React.PureComponent {
     let firestore = firebase.firestore();
     let layout = this.state.layout
     _.forEach(layout, function (doc, i) {
-      console.log('forEach', doc.i)
       let washingtonRef = firestore.collection("layout").doc(doc.i);
       return washingtonRef.update({
         h: +doc.h,
@@ -53,13 +56,29 @@ class LocalStorageLayout extends React.PureComponent {
       
   }
 
-  onLayoutChange(layout) {
-    /*eslint no-console: 0*/
-    // saveToLS("layout", layout);
-    this.setState({ layout });
-    this.props.onLayoutChange(layout); // updates status display
-    console.log('move  ', this.state.layout)
 
+  onLayoutChange(items) {
+    let firestore = firebase.firestore();
+    _.forEach(items, function (doc, i) {
+      console.log('change', doc)
+      let washingtonRef = firestore.collection("layout").doc(doc.i);
+      return washingtonRef.update({
+        h: +doc.h,
+        i: doc.i,
+        minH: +doc.minH,
+        minW: +doc.minW,
+        w: +doc.w,
+        x: +doc.x,
+        y: +doc.y
+      })
+      .then(function() {
+        console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
+    })
   }
 
   componentDidMount() {
@@ -74,21 +93,27 @@ class LocalStorageLayout extends React.PureComponent {
       this.setState({
         layout: listCollect
       })
-      console.log('componentDidMount ',  this.state.layout)
 
     });
   }
 
   createElement(el) {
+    console.log(el.y)
     return (
-      <div key={el.i} data-grid={el} style={{width: 'auto', height: 'auto'}}>
-        <Card style={{width: '100%', height: '100%', top: 0,bottom: 0}}>
+      <div key={el.i} data-grid={el}>
+      <SizeMe monitorWidth monitorHeight>
+      {({ size }) => 
+        <Card style={{width: '100%', height: '100%', top: 0,bottom: 0, position: "absolute"}}>
             <CardBody>
-                <CardTitle>Card title {el.i} </CardTitle>
-                <CardSubtitle className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                <CardText><span >1</span></CardText>
+                {/* <CardTitle>Card title {el.i} </CardTitle> */}
+                <span className="text">width = {size.width} px</span><br/>
+                <span className="text">height = {size.height} px</span><br/>
+								<EchartTest width={size.width} height={size.height - 50}/>
             </CardBody>
           </Card>
+      }
+      </SizeMe>
+        
       </div>
     );
   }
@@ -105,22 +130,18 @@ class LocalStorageLayout extends React.PureComponent {
         <CardBody>         
           <Row>
             <Col md={12} xs={12}>
-              <Button color="primary" className="btn-round" onClick={this.saveLayout}>
-                  <i className="media-1_camera-compact"></i> Save Layout
-              </Button>
+        <SizeMe>{({ size }) => <div>My width is {size.width}px</div>}</SizeMe>
               <ReactGridLayout
-                {...this.props}
-                layout={this.state.layout}
-                onLayoutChange={this.onLayoutChange} >
-                {_.map(this.state.layout, el => this.createElement(el))}
+                  col={24}
+                  {...this.props}
+                  layout={this.state.layout}
+                  onLayoutChange={this.onLayoutChange} >
+                  {_.map(this.state.layout, el => this.createElement(el))}
               </ReactGridLayout>
             </Col>
           </Row>
         </CardBody>
-
-        
       </>
-
     );
   }
 }

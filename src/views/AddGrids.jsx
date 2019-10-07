@@ -1,6 +1,6 @@
 import React from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
-import { Card, CardHeader, CardBody, Row, Col, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, Row, Col, CardTitle, CardText, Button } from 'reactstrap';
 import { SizeMe } from 'react-sizeme';
 import _ from "lodash";
 import '../App.css';

@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import { SizeMe } from 'react-sizeme'
 
 // reactstrap components
 import { CardHeader, CardBody } from "reactstrap";
@@ -31,6 +32,8 @@ class Typography extends React.Component {
           </p>
         </CardHeader>
         <CardBody>
+
+        <SizeMe>{({ size }) => <div>My width is {size.width}px</div>}</SizeMe>
           <div className="typography-line">
             <h1>
               <span>Header 1</span>The Life of Now Ui Dashboard{" "}

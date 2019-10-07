@@ -88,7 +88,6 @@ class BubbleChart extends Component {
   renderBubbles(width, nodes, color) {
     const {
       graph,
-      data,
       bubbleClickFun,
       valueFont,
       labelFont,
@@ -202,7 +201,6 @@ class BubbleChart extends Component {
 
   renderLegend(width, height, offset, nodes, color) {
     const {
-      data,
       legendClickFun,
       legendFont,
     } = this.props;

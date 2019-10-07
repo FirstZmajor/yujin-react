@@ -1,12 +1,10 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, Button, Row, Col } from 'reactstrap';
-import * as d3 from 'd3';
-import _ from "lodash";
+import { Card, CardHeader, CardBody, Button, Row, Col } from 'reactstrap'
+import * as d3 from 'd3'
 
-import ProgressArc from '../visualization/ProgressArc';
-import BubbleChart from '../visualization/BubbleChart';
-import BarChart from '../visualization/BarChart';
-
+import ProgressArc from '../visualization/ProgressArc'
+import BubbleChart from '../visualization/BubbleChart'
+import BarChart from '../visualization/BarChart'
 
 class MyChart extends React.Component {
   constructor(props) {
@@ -48,7 +46,7 @@ class MyChart extends React.Component {
           <CardHeader>
             <h5 className="title">Lab for D3 Charts</h5>
             <p className="category">
-              dddddddd
+              Testing
             </p>
           </CardHeader>
           <CardBody className="all-icons">
@@ -57,8 +55,21 @@ class MyChart extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    width={300}
-                    height={300}
+                    width={800} height={500}
+                  />
+                </CardBody>
+              </Card>
+            </Col>
+
+
+            <Col>
+              <Card style={{width: 'auto', height: 'auto'}}>
+                <CardBody>
+                  <BubbleChart
+                    width={800}
+                    height={800}
+                    fontFamily="Arial"
+                    data={this.state.dataBubble}
                   />
                 </CardBody>
               </Card>
@@ -72,28 +83,16 @@ class MyChart extends React.Component {
                   </Button>
                 </Col>
               </Row>
-            <ProgressArc
-              height={300}
-              width={300}
-              innerRadius={100}
-              outerRadius={110}
-              id="d3-arc"
-              backgroundColor="#e6e6e6"
-              foregroundColor="#00ff00"
-              percentComplete={this.state.percentComplete}
-            />
-            </Col>
-            <Col>
-              <Card style={{width: 'auto', height: 'auto'}}>
-              <CardBody>
-                <BubbleChart
-                  width={800}
-                  height={800}
-                  fontFamily="Arial"
-                  data={this.state.dataBubble}
-                />
-              </CardBody>
-            </Card>
+              <ProgressArc
+                height={300}
+                width={300}
+                innerRadius={100}
+                outerRadius={110}
+                id="d3-arc"
+                backgroundColor="#e6e6e6"
+                foregroundColor="#00ff00"
+                percentComplete={this.state.percentComplete}
+              />
             </Col>
           </Row>
           </CardBody>
