@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
 
-import { EchartTest, BarZoom, MultiLine } from '../visualization/EchartTest'
+import { EchartTest, BarZoom, MultiLine, GagueChart, PieChart } from '../visualization/EchartTest'
 
 class  MyEchart extends React.Component {
 	render() {
@@ -24,7 +24,7 @@ class  MyEchart extends React.Component {
             <Col>
               <Card style={{width: 'auto', height: 'auto'}}>
                 <CardBody>
-									<EchartTest width={600} height={500}/>
+									<PieChart width={450} height={500}/>
 								</CardBody>
 								</Card>
             </Col>
@@ -32,14 +32,7 @@ class  MyEchart extends React.Component {
             <Col>
               <Card style={{width: 'auto', height: 'auto'}}>
                 <CardBody>
-									<BarZoom width={800}
-										height={500}
-										seriesArray={ [ {name: 'Universities', data: sampling} ] }
-										xLabel="Hungry Students"
-										yLabel="Hot Pockets Eaten"
-										title="Hot Pockets Eaten By Hungry Students"
-										showZoom={true}
-							 />
+									<EchartTest width={450} height={500}/>
 								</CardBody>
 								</Card>
             </Col>
@@ -47,9 +40,32 @@ class  MyEchart extends React.Component {
 						<Col>
               <Card style={{width: 'auto', height: 'auto'}}>
                 <CardBody>
-									<MultiLine width={800} height={500}/>
+									<GagueChart width={450} height={500}/>
 								</CardBody>
-								</Card>
+							</Card>
+            </Col>
+
+            <Col>
+              <Card style={{width: 'auto', height: 'auto'}}>
+                <CardBody>
+									<BarZoom width={700}
+										height={500}
+										seriesArray={ [ {name: 'Universities', data: sampling} ] }
+										xLabel="Hungry Students"
+										yLabel="Hot Pockets Eaten"
+										title="Hot Pockets Eaten By Hungry Students"
+										showZoom={true}
+									/>
+								</CardBody>
+              </Card>
+            </Col>
+
+						<Col>
+              <Card style={{width: 'auto', height: 'auto'}}>
+                <CardBody>
+									<MultiLine width={700} height={500}/>
+								</CardBody>
+              </Card>
             </Col>
 					</Row>
 				</CardBody>

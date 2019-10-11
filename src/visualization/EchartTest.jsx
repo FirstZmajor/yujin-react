@@ -1,6 +1,7 @@
 
 import React from 'react'
 import * as echarts from 'echarts'
+import _ from "lodash"
 
 export class EchartTest extends React.Component {
   constructor(props) {
@@ -9,11 +10,34 @@ export class EchartTest extends React.Component {
       styleID: Math.random().toString(36).substr(2),
       option: {
           title: {
-              text: 'ECharts Bar example'
+              text: 'ECharts Bar example',
+              x:'center'
           },
           tooltip: {},
+          toolbox: {
+              feature: {
+                saveAsImage: {
+                  show: true,
+                  title: 'Save as Image',
+                  // lang:['Click to Save']
+                },
+                dataZoom: {
+                  show: true,
+                  title: 'Zoom',
+                },
+                dataZoomReset: {
+                  show: true,
+                  title: 'Reset'
+                }
+              }
+          },
           legend: {
-              data:['Sales']
+            data:['Sales'],
+            type: 'scroll',
+            orient: 'vertical',
+            // right: 0,
+            // top: 40,
+            bottom: 5,
           },
           xAxis: {
               data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
@@ -46,7 +70,7 @@ export class EchartTest extends React.Component {
   }
 
   render() {
-    console.log(this.props.width)
+    // console.log(this.props.width)
     return(
       <>
         <div id={this.state.styleID} style={{width: this.state.width, height: this.state.height}}></div>
@@ -59,48 +83,7 @@ export class BarZoom extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      defaultOptions : {
-        toolbox: {
-          show: true,
-          showTitle: true,
-          feature: {
-            mark: {
-              show: true,
-              title: {
-              mark: 'Mark Tool',
-                markUndo: 'Undo Last Mark',
-                  markClear: 'Clear Marks'
-              }
-            },
-            dataZoom: {
-              show: true,
-              title: {
-                dataZoom: 'Range Zoom',
-                dataZoomReset: 'Undo Zoom'
-              },
-            },           
-            dataView: {
-              show: true,
-              title: 'Data View',
-              lang: ['Data View', 'Close','Refresh']
-            },
-            magicType: {
-              show: false
-            },
-            restore: { show: true, title: 'Restore'},
-            saveAsImage: {
-              show: true,
-              title: 'Save as Image',
-              lang:['Click to Save']
-            }
-          }
-        }
-      },
-      theme: {
-        textStyle: {
-            fontFamily: 'Helvetica Neue‘, Arial, Verdana, sans-serif'
-        }
-      }
+      defaultOptions : {}
     }
   }
   componentDidMount() {
@@ -118,8 +101,8 @@ export class BarZoom extends React.Component {
   }
 
   createChart() {
-    const bar01 = echarts.init(document.getElementById('Bar02'));
-    bar01.setOption(this.state.defaultOptions, this.state.theme)
+    this.bar01 = echarts.init(document.getElementById('Bar02'));
+    this.bar01.setOption(this.state.defaultOptions, this.state.theme)
     this.updateChart(this.props);
   }
 
@@ -129,9 +112,7 @@ export class BarZoom extends React.Component {
       return null;
     }
     var newChartOptions = this.makeChartOptions(nextProps);
-    const bar01 = echarts.init(document.getElementById('Bar02'));
-    // console.log(newChartOptions)
-    bar01.setOption(newChartOptions.defaultOptions);
+    this.bar01.setOption(newChartOptions.defaultOptions);
   }
 
   makeChartOptions() {
@@ -162,14 +143,6 @@ export class BarZoom extends React.Component {
         dataZoom: {
           show: Boolean(this.props.showZoom)
         },
-        toolbox: {
-          feature: {
-            saveAsImage: { 
-              name: 'scatter_' + xLabel + '_' + yLabel,
-              type: 'png'
-            }
-          }
-        },
         legend: {
           data: echartSeriesArray.map(function(series){ return series.name; }),
           orient: 'vertical',
@@ -182,11 +155,27 @@ export class BarZoom extends React.Component {
           y: 60,
           x2: 120,
           y2: 60
-        }
-      },
-      theme: {
-        textStyle: {
-            fontFamily: 'Helvetica Neue‘, Arial, Verdana, sans-serif'
+        },
+        toolbox: {
+          show: true,
+          // showTitle: false,
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: 'Save as Image',
+              // lang:['Click to Save']
+            },
+            dataZoom: {
+              show: true,
+              title: {
+                Zoom: {default: 'area zooming'}
+              },
+            },
+            dataZoomReset: {
+              show: true,
+              // title: 'Reset',
+            }
+          }
         }
       }
     }
@@ -227,7 +216,15 @@ export class MultiLine extends React.Component {
               saveAsImage: {
                 show: true,
                 title: 'Save as Image',
-                lang:['Click to Save']
+                // lang:['Click to Save']
+              },
+              dataZoom: {
+                show: true,
+                title: 'Zoom',
+              },
+              dataZoomReset: {
+                show: true,
+                title: 'Reset'
               }
             }
         },
@@ -270,25 +267,169 @@ export class MultiLine extends React.Component {
     }
   }
   componentDidMount() {
-    const setOption = {
-      
-    }
-    
-    var barChart = echarts.init(document.getElementById('chartMultiLine'))
-    barChart.setOption(this.state.option)
-    // this.setState({
-    //   option: setOption
-    // })
-    console.log(this.state.option)
-  }
-  createChart() {
     var barChart = echarts.init(document.getElementById('chartMultiLine'))
     barChart.setOption(this.state.option)
   }
+  // createChart() {
+  //   var barChart = echarts.init(document.getElementById('chartMultiLine'))
+  //   barChart.setOption(this.state.option)
+  // }
   render() {
     return (
       <>
         <div id="chartMultiLine" style={{width: this.props.width, height: this.props.height}}></div>
+      </>
+    )
+  }
+}
+
+export class GagueChart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      chartID: Math.random().toString(36).substr(2),
+      data: [],
+      optionGague: {
+        title: {
+          text: 'Gague example',
+          x:'center'
+        },
+        tooltip : {
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        toolbox: {
+            feature: {
+              saveAsImage: {
+                show: true,
+                title: 'Save as Image',
+                lang:['Click to Save']
+              }
+            }
+        },
+        series: [{
+          name: 'Test Gague',
+          type: 'gauge',
+          detail: {formatter:'{value}%'},
+          data: [{value: 56, name: 'AAA'}]
+        }]
+      },
+      width: 0,
+      height: 0
+    }
+  }
+  static getDerivedStateFromProps(props) {
+    return { 
+      width: props.width || 600,
+      height: props.height || 500
+    }
+  }
+
+  componentDidMount() {
+    // const API = 'https://next.json-generator.com/api/json/get/VJWFxH8uv'
+    // console.log(API)
+    // fetch(API)
+    //   .then(response => 
+    //     response.json()
+    //     // console.log(response)
+    //     )
+    //   .then((pages) => 
+    //     console.log(pages)
+    //   )
+
+    // console.log(this.state.optionGague)
+    this.myChart = echarts.init(document.getElementById(this.state.chartID))
+    this.myChart.setOption(this.state.optionGague)
+  }
+
+  render() {
+    return (
+      <>
+        <div id={this.state.chartID} style={{width: this.state.width, height: this.state.height}}></div>
+      </>
+    )
+  }
+}
+
+export class PieChart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      chartID: Math.random().toString(36).substr(2),
+      option: {
+        title : {
+            text: 'Test Pie Chart',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        toolbox : {
+            show: true,
+            feature: {
+              saveAsImage: {
+                show: true,
+                title: 'Save as Image'
+              }
+            }
+        },
+        legend: {
+            type: 'scroll',
+            // orient: 'vertical',
+            orient: 'horizontal',
+            // right: 10,
+            // top: 60,
+            bottom: 20,
+            data: []
+        },
+        series :{
+            name: 'TEST JA',
+            type: 'pie',
+            radius : '55%',
+            // center: ['40%', '50%'],
+            data: [],
+            // itemStyle: {
+            //     emphasis: {
+            //         shadowBlur: 10,
+            //         shadowOffsetX: 0,
+            //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+            //     }
+            // }
+        }
+      }
+    }
+  }
+
+  genData() {
+    const nameList = [ 'aa', 'bb', 'cc', 'dd', 'ee']
+    const seriesData = []
+    const legendData = []
+    _.forEach(nameList, function(name, key) {
+      legendData.push(name)
+      seriesData.push({
+        name: name,
+        value: Math.round(Math.random() * 1000)
+      })
+    })
+    const {option} = this.state
+    option.legend.data.push(...legendData)
+    option.series.data.push(...seriesData)
+    this.setState({ option })
+    console.log('done')
+  }
+
+  componentDidMount() {
+    this.genData()
+    console.log(this.state.option)
+    this.myPie = echarts.init(document.getElementById(this.state.chartID))
+    this.myPie.setOption(this.state.option)
+  }
+
+  render() {
+    // console.log('Render', this.state.option)
+    return(
+      <>
+        <div id={this.state.chartID} style={{width: this.props.width, height: this.props.height}}></div>
       </>
     )
   }

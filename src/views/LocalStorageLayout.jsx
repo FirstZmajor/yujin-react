@@ -1,7 +1,7 @@
 import React from "react"
 import RGL, { WidthProvider} from "react-grid-layout"
-import { Card, CardHeader, CardBody, CardTitle, CardFooter, Button, Row, Col } from 'reactstrap'
-import { EchartTest, BarZoom, MultiLine } from '../visualization/EchartTest'
+import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
+import { EchartTest } from '../visualization/EchartTest'
 import { SizeMe } from 'react-sizeme'
 
 import _ from "lodash"
@@ -108,7 +108,7 @@ class LocalStorageLayout extends React.PureComponent {
                 {/* <CardTitle>Card title {el.i} </CardTitle> */}
                 <span className="text">width = {size.width} px</span><br/>
                 <span className="text">height = {size.height} px</span><br/>
-								<EchartTest width={size.width} height={size.height - 50}/>
+								<EchartTest width={size.width} height={size.height - 60}/>
             </CardBody>
           </Card>
       }
